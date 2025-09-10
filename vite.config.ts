@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
   },
   base: "/",
-  root: ".", // This tells Vite to use the repository root
+  root: ".", // Explicitly set the root to the current directory
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {
