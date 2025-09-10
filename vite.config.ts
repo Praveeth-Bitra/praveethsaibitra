@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
   },
   base: "/",
+  root: ".", // This tells Vite to use the repository root
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {
@@ -18,6 +19,11 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     outDir: "dist",
-    emptyOutDir: true, // This is a good practice to ensure a clean build
+    emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, "index.html"),
+      },
+    },
   },
 }));
