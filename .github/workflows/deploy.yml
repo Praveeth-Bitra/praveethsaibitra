@@ -3,26 +3,23 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master # or main
+      - main
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Install and Build
-        run: |
-          npm install
-          npm run build
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-      - name: Copy CNAME file
-        run: cp CNAME dist/CNAME
+      - run: npm install
+      - run: npm run build
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          folder: dist
-          branch: gh-pages
-          token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist   # 👈 make sure it's dist, not .
